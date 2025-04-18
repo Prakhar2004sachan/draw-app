@@ -22,6 +22,8 @@ export const getCanvasById = async (req: Request, res: Response) => {
 };
 
 export const createCanvas = async (req: Request, res: Response) => {
+  // @ts-ignore
+  const userId = req.userId;
   try {
     const parsed = createCanvasSchema.safeParse(req.body);
     // const { title, userId, elements } = req.body;
@@ -30,7 +32,7 @@ export const createCanvas = async (req: Request, res: Response) => {
       return res.status(400).json({ err: parsed.error.format() });
     }
 
-    const { title, userId, elements } = parsed.data;
+    const { title, elements } = parsed.data;
 
     const newCanvas = await prisma.canvas.create({
       data: {

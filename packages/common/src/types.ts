@@ -11,7 +11,6 @@ export const elementsSchema = z.object({
 
 export const createCanvasSchema = z.object({
   title: z.string(),
-  userId: z.string().uuid(),
   elements: z.array(elementsSchema).optional(),
 });
 

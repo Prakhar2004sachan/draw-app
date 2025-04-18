@@ -45,6 +45,7 @@ export const login = async (req: Request, res: Response) => {
     return res.status(404).json({ err: parsed.error.format() });
   }
   const { email, password } = parsed.data;
+  console.log(email, password);
   try {
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -52,6 +53,7 @@ export const login = async (req: Request, res: Response) => {
     if (!existingUser || existingUser.password !== password) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
+    console.log(existingUser);
 
     const token = genrateToken({
       id: existingUser.id,

@@ -5,17 +5,17 @@ import {
   getCanvasById,
   updateCanvas,
 } from "../controllers/canvasController";
-import { authenticatToken } from "../middlewares/authMiddleware";
+import { authenticateToken } from "../middlewares/authMiddleware"
 
 const router: Router = Router();
 
 // @ts-ignore
-router.get("get-canvas/:id", getCanvasById);
+router.get("get-canvas/:id", authenticateToken, getCanvasById);
 // @ts-ignore
-router.post("create-canvas", authenticatToken, createCanvas);
+router.post("create-canvas", authenticateToken, createCanvas);
 // @ts-ignore
-router.patch("update-canvas/:id", authenticatToken, updateCanvas);
+router.patch("update-canvas/:id", authenticateToken, updateCanvas);
 // @ts-ignore
-router.delete("delete-canvas/:id", authenticatToken, deleteCanvas);
+router.delete("delete-canvas/:id", authenticateToken, deleteCanvas);
 
 export default router;
