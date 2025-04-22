@@ -17,7 +17,7 @@ app.use("/api/canvas", canvasRoutes);
 app.use("/api/session", sessionRoutes);
 app.use("/api/auth", authRoutes);
 
-const port = 30002;
+const port = 3002;
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

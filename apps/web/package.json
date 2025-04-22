@@ -12,9 +12,12 @@
   },
   "dependencies": {
     "@repo/ui": "workspace:*",
+    "konva": "^9.3.20",
     "next": "^15.3.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-konva": "^19.0.3",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
