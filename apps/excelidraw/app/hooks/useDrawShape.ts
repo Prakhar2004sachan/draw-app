@@ -1,89 +1,66 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Konva from "konva";
 import { canvasStore } from "../store/canvasStore";
+import { uiStore } from "../store/uiStore";
 import { Shape } from "../utils/shapes/shapeTypes";
+import {
+  handleMouseDown,
+  handleMouseMove,
+  handleMouseUp,
+  handleStageClick,
+} from "../logic/handleShapeEvents";
+import {
+  handleDragMove,
+  handleDragEnd,
+  handleTransformEnd,
+} from "../logic/transformUtils";
+import { handleKeyDown } from "../logic/handleKeyEvents";
 
 export const useDrawShape = () => {
   const newShapeRef = useRef<Shape | null>(null);
-  const {
-    shapes,
-    selectedIds,
-    setSelectedIds,
-    transformerRef,
-    stageRef,
-    isSelecting,
-    setIsSelecting,
-    addShape,
-    updateShape,
-    currentTool,
-  } = canvasStore();
   const isDrawing = useRef(false);
-  const getPointer = (): { x: number; y: number } | null => {
-    const stage = stageRef?.current;
-    if (!stage) return null;
-    const transform = stage.getAbsoluteTransform().copy().invert();
-    const pos = stage.getPointerPosition();
-    console.log(transform.point(pos));
-    return pos ? transform.point(pos) : null;
-  };
+  const transRef = useRef<React.RefObject<Konva.Transformer | null>>(null);
 
-  const handleMouseDown = (e) => {
-    const stage = stageRef?.current;
-    if (!stage) return;
+  const { shapeRefs, ...canvasState } = canvasStore();
+  const { snapping } = uiStore();
 
-    const pointer = getPointer();
-    if (!pointer) return;
+  useEffect(() => {
+    const nodes = canvasState.selectedIds
+      .map((id) => shapeRefs.get(id)?.current)
+      .filter((node): node is Konva.Node => Boolean(node));
 
-    isDrawing.current = true;
-    e.target.getStage().container().style.cursor = "crosshair";
-    const shape: Shape = {
-      id: `Shape-${Date.now()}`,
-      type: currentTool,
-      x: pointer.x,
-      y: pointer.y,
-      width: 0,
-      height: 0,
-      text: currentTool === "text" ? "Enter Your Text" : "",
+    transRef?.current?.nodes(nodes);
+    transRef?.current?.getLayer()?.batchDraw();
+
+    window.addEventListener("keydown", (e) =>
+      handleKeyDown(
+        e,
+        canvasState.setSelectedIds,
+        canvasState.shapes,
+        canvasState.selectedIds
+      )
+    );
+
+    return () => {
+      // @ts-ignore
+      window.removeEventListener("keydown", handleKeyDown);
     };
-    addShape(shape);
-    newShapeRef.current = shape;
-    console.log("adding shape: ", shape);
-  };
-
-  const handleMouseMove = (e) => {
-    const stage = stageRef?.current;
-    if (!stage) return;
-
-    const pointer = getPointer();
-    if (!pointer) return;
-
-    if (!isDrawing.current) return;
-    if (!newShapeRef) return;
-
-    const shape = newShapeRef.current;
-    if (!shape) return;
-
-    e.target.getStage().container().style.cursor = "crosshair";
-
-    const newWidth = pointer.x - shape?.x;
-    const newHeight = pointer.y - shape?.y;
-
-    updateShape({
-      ...shape,
-      width: newWidth,
-      height: newHeight,
-    });
-  };
-
-  const handleMouseUp = (e) => {
-      isDrawing.current = false;
-      newShapeRef.current = null;
-      e.target.getStage().container().style.cursor = "default";
-  };
+  }, [canvasState.selectedIds]);
 
   return {
-    handleMouseDown,
-    handleMouseMove,
-    handleMouseUp,
+    handleMouseDown: (e: Konva.KonvaEventObject<MouseEvent>) =>
+      handleMouseDown(e, canvasState, newShapeRef, isDrawing),
+    handleMouseMove: (e: Konva.KonvaEventObject<MouseEvent>) =>
+      handleMouseMove(e, canvasState, newShapeRef, isDrawing),
+    handleMouseUp: () => handleMouseUp(canvasState, newShapeRef, isDrawing),
+    handleStageClick: (e: Konva.KonvaEventObject<MouseEvent>) =>
+      handleStageClick(e, canvasState),
+    handleDragEnd: (e: Konva.KonvaEventObject<MouseEvent>) =>
+      handleDragEnd(e, canvasState, snapping),
+    handleTransformEnd: (e: Konva.KonvaEventObject<MouseEvent>) =>
+      handleTransformEnd(e, canvasState, transRef),
+    handleDragMove: (e: Konva.KonvaEventObject<MouseEvent>) =>
+      handleDragMove(e, canvasState, snapping),
+    transRef,
   };
 };

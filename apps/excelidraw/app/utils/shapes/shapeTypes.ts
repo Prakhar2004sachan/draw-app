@@ -19,4 +19,8 @@ export type Shape = {
   height: number;
   points?: number[];
   text?: string;
+  rotation?: number;
+  scaleX?: number;
+  scaleY?: number;
+  color?: string;
 };

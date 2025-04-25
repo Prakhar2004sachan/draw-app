@@ -33,7 +33,7 @@ function Toolbar() {
       {tools.map(({ icon, type }) => (
         <div
           key={type}
-          className={`cursor-pointer ${currentTool === type ? "text-[#a8a5fe]" : ""}`}
+          className={`cursor-pointer ${currentTool === type ? "text-black" : ""}`}
           onClick={()=>{
             setCurrentTool(type)
           }}

@@ -1,35 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   PiBookOpenLight,
   PiDownloadSimpleLight,
+  PiFileLight,
   PiLineVerticalLight,
-  PiLockLight,
+  PiShareNetworkLight,
 } from "react-icons/pi";
 import { Button } from "@repo/ui/button";
 import { HiOutlineBars3CenterLeft } from "react-icons/hi2";
 import Toolbar from "./Toolbar";
+import SideBar from "./SideBar";
 
 function NavBar() {
+  const [showSideBar, setShowSideBar] = useState<boolean>(true)
   return (
     <div className="w-full flex absolute top-3 items-center justify-between text-zinc-100 left-1/2 -translate-x-1/2 px-10 z-10">
-      <div className="bg-[#242329] p-4 rounded-xl">
-        <HiOutlineBars3CenterLeft className="cursor-pointer" />
+      <div className="bg-[#4C3D3D] p-4 rounded-xl">
+        <HiOutlineBars3CenterLeft className="cursor-pointer text-white" onClick={()=>setShowSideBar(!showSideBar)}/>
+        {
+          showSideBar && <SideBar/>
+        }
       </div>
-      <div className="flex gap-8 bg-[#242329] py-4 px-8 rounded-2xl">
+      <div className="flex gap-8 bg-[#4C3D3D] py-4 px-8 rounded-2xl">
         <div>
-          <PiLockLight className="cursor-pointer" />
+          <PiFileLight className="cursor-pointer text-white" />
         </div>
-        <PiLineVerticalLight className="text-zinc-500" />
+        <PiLineVerticalLight className="text-zinc-300" />
         <Toolbar />
-        <PiLineVerticalLight className="text-zinc-500" />
+        <PiLineVerticalLight className="text-zinc-300" />
         <PiDownloadSimpleLight className="cursor-pointer" />
       </div>
       <div className="flex gap-4">
         <Button
           title={"share"}
-          showIcon={false}
+          showIcon={true}
+          icon={<PiShareNetworkLight className="size-4" />}
           className={
-            "bg-[#a8a5fe] text-black text-sm py-2 px-6 rounded-xl cursor-pointer"
+            "bg-[#4C3D3D] py-2 px-6 rounded-xl text-sm flex gap-3 items-center justify-center cursor-pointer"
           }
         />
         <Button
@@ -37,7 +44,7 @@ function NavBar() {
           showIcon={true}
           title="library"
           className={
-            "bg-[#242329] py-2 px-6 rounded-xl text-sm flex gap-3 items-center justify-center cursor-pointer"
+            "bg-[#4C3D3D] py-2 px-6 rounded-xl text-sm flex gap-3 items-center justify-center cursor-pointer"
           }
         />
       </div>

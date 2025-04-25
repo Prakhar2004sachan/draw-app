@@ -9,9 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^7.0.2",
     "@repo/ui": "workspace: *",
+    "fabric": "^6.6.4",
     "jspdf": "^3.0.1",
     "konva": "^9.3.20",
+    "nanoid": "^5.1.5",
     "next": "15.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

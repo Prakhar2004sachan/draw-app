@@ -1,5 +1,6 @@
 "use client";
 import CanvasBoard from "../components/CanvasBoard";
+import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 
 export default function CanvasBoardMain() {
@@ -7,6 +8,7 @@ export default function CanvasBoardMain() {
     <div className="w-full h-screen relative overflow-hidden">
       <CanvasBoard />
       <NavBar />
+      <Footer/>
     </div>
   );
 }

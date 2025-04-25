@@ -1,3 +1,5 @@
+import { useDrawShape } from '@/app/hooks/useDrawShape'
+import { useShapes } from '@/app/hooks/useShapes'
 import { Shape } from '@/app/utils/shapes/shapeTypes'
 import React from 'react'
 import { Line } from 'react-konva'
@@ -7,8 +9,14 @@ type Props = {
 }
 
 function LineShape({shape}: Props) {
+  const { shapeRef,  isDraggable, handleSelect } = useShapes(
+      shape.id
+    );
+         const {handleDragEnd} = useDrawShape();
+    
   return (
     <Line
+    ref={shapeRef}
     id={shape.id}
     points={[
       shape.x,
@@ -18,6 +26,9 @@ function LineShape({shape}: Props) {
     ]}
     stroke={"black"}
     strokeWidth={4}
+    draggable={isDraggable}
+    onClick={handleSelect}
+    onDragEnd={handleDragEnd}
     />
   )
 }
