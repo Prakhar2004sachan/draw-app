@@ -16,6 +16,14 @@ type uiStoreProps = {
   // Snap
   snapping: boolean;
   setSnapping: (val: boolean) => void;
+
+  // Stroke
+  strokeWidth: number;
+  setStrokeWidth: (value: number) => void;
+
+  // Stroke
+  opacity: number;
+  setOpacity: (value: number) => void;
 };
 
 export const uiStore = create<uiStoreProps>((set) => ({
@@ -30,4 +38,10 @@ export const uiStore = create<uiStoreProps>((set) => ({
 
   snapping: true,
   setSnapping: (val) => set({ snapping: val }),
+
+  strokeWidth: 4,
+  setStrokeWidth: (value) => set({ strokeWidth: value }),
+
+  opacity: 1,
+  setOpacity: (value) => set({ opacity: value / 100 }),
 }));

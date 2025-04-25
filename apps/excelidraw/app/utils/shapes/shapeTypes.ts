@@ -23,4 +23,7 @@ export type Shape = {
   scaleX?: number;
   scaleY?: number;
   color?: string;
+  strokeWidth?: number;
+  opacity?: number;
+  cornerRadius?: number;
 };

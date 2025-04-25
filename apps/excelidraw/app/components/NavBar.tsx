@@ -12,7 +12,7 @@ import Toolbar from "./Toolbar";
 import SideBar from "./SideBar";
 
 function NavBar() {
-  const [showSideBar, setShowSideBar] = useState<boolean>(true)
+  const [showSideBar, setShowSideBar] = useState<boolean>(false)
   return (
     <div className="w-full flex absolute top-3 items-center justify-between text-zinc-100 left-1/2 -translate-x-1/2 px-10 z-10">
       <div className="bg-[#4C3D3D] p-4 rounded-xl">

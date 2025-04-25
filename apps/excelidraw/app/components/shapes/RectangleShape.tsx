@@ -26,9 +26,10 @@ function RectangleShape({ shape }: Props) {
       onClick={handleSelect}
       onTap={handleSelect}
       stroke="black"
-      strokeWidth={4}
+      strokeWidth={shape.strokeWidth}
       onDragEnd={handleDragEnd}
       onDragMove={handleDragMove}
+      opacity={shape.opacity}
     />
   );
 }

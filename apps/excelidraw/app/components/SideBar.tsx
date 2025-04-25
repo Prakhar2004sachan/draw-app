@@ -7,7 +7,7 @@ import {
 import { TbGridDots } from "react-icons/tb";
 import { uiStore } from "../store/uiStore";
 import { canvasStore } from "../store/canvasStore";
-import {Slider} from "@mui/material"
+import { Slider } from "@mui/material";
 
 function SideBar() {
   const colors = [
@@ -34,17 +34,41 @@ function SideBar() {
     setFillColor,
     snapping,
     setSnapping,
+    setOpacity,
+    setStrokeWidth,
   } = uiStore();
-  const { selectedIds, shapes, updateShape } = canvasStore()
+  const { selectedIds, shapes, updateShape } = canvasStore();
   const colorFill = (c) => {
     setFillColor(c);
-    console.log(fillColor,c);
+    console.log(fillColor, c);
     if (!selectedIds || selectedIds.length === 0) return;
     const selected = shapes.filter((shape) => selectedIds.includes(shape.id));
     selected.forEach((item) => {
       updateShape({
         ...item,
         color: c,
+      });
+    });
+  };
+  const strokeHandler = (val: number) => {
+    setStrokeWidth(val);
+    if (!selectedIds || selectedIds.length === 0) return;
+    const selected = shapes.filter((shape) => selectedIds.includes(shape.id));
+    selected.forEach((item) => {
+      updateShape({
+        ...item,
+        strokeWidth: val,
+      });
+    });
+  };
+  const opacityHandler = (val: number) => {
+    setOpacity(val);
+    if (!selectedIds || selectedIds.length === 0) return;
+    const selected = shapes.filter((shape) => selectedIds.includes(shape.id));
+    selected.forEach((item) => {
+      updateShape({
+        ...item,
+        opacity: val / 100,
       });
     });
   };
@@ -77,9 +101,7 @@ function SideBar() {
           <p className="text-sm">Snap to Grid</p>
           <PiMagnetStraightLight className="size-4" />
         </div>
-        <div
-          className="flex flex-col justify-between hover:bg-[#967E76] px-4 py-2 hover:rounded-lg border-b cursor-pointer border-white transition-all duration-300 select-none"
-        >
+        <div className="flex flex-col justify-between hover:bg-[#967E76] px-4 py-2 hover:rounded-lg border-b cursor-pointer border-white transition-all duration-300 select-none">
           <p className="text-sm">Shape Stroke</p>
           <Slider
             size="small"
@@ -87,20 +109,23 @@ function SideBar() {
             aria-label="Small"
             valueLabelDisplay="auto"
             max={30}
-            color="white"
+            sx={{
+              color: "white",
+            }}
+            onChange={(e, val) => strokeHandler(val)}
           />
         </div>
-        <div
-          className="flex flex-col justify-between hover:bg-[#967E76] px-4 py-2 hover:rounded-lg border-b cursor-pointer border-white transition-all duration-300 select-none"
-        >
+        <div className="flex flex-col justify-between hover:bg-[#967E76] px-4 py-2 hover:rounded-lg border-b cursor-pointer border-white transition-all duration-300 select-none">
           <p className="text-sm">Shape Opacity</p>
           <Slider
             size="small"
-            defaultValue={4}
+            defaultValue={100}
             aria-label="Small"
             valueLabelDisplay="auto"
-            max={30}
-            color="white"
+            sx={{
+              color: "white",
+            }}
+            onChange={(e, val) => opacityHandler(val)}
           />
         </div>
       </div>

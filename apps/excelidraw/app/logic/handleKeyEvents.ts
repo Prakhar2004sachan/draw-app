@@ -8,20 +8,25 @@ export const handleKeyDown = (
 ) => {
   if (e.code === "Delete" || e.code === "Backspace") {
     e.preventDefault();
+    console.log("Deleting...")
     const updatedShapes = shapes.filter(
       (shape: any) => !selectedIds.includes(shape.id)
     );
     setSelectedIds([]);
     canvasStore.setState({ shapes: updatedShapes });
   }
-  if (e.code === "Shift" && e.code === "keyD") {
+  if (e.shiftKey && e.code === "KeyD") {
     e.preventDefault();
-      const updatedShape = shapes
-        .filter((shape: any) => selectedIds.includes(shape.id))
-        .map((shape: any) => ({
+    console.log("Duplicating...")
+      const newShapes = shapes
+        .filter((shape:any) => selectedIds.includes(shape.id))
+        .map((shape:any) => ({
           ...shape,
+          id: `${shape.id}-${Math.random().toString(36).substr(2, 5)}`, // give unique id
+          x: shape.x + 20, // offset so it’s not on top
+          y: shape.y + 20,
         }));
-    selectedIds([]);
-    canvasStore.setState({ shapes: [...shapes, updatedShape] });
+    canvasStore.setState({ shapes: [...shapes, ...newShapes] });
+    setSelectedIds(newShapes.map((shape:any) => shape.id));
   }
 };

@@ -77,6 +77,7 @@ const TextShape = ({ shape, onChange }) => {
         text={shape.text}
         fontSize={20}
         draggable
+        opacity={shape.opacity}
         onDblClick={handleDoubleClick}
       />
       {isEditing && (

@@ -19,10 +19,11 @@ function ArrowShape({ shape }: Props) {
       points={[shape.x, shape.y, shape.x + shape.width, shape.y + shape.height]}
       fill={"black"}
       stroke={"black"}
-      strokeWidth={4}
+      strokeWidth={shape.strokeWidth}
       draggable={isDraggable}
       onClick={handleSelect}
       onDragEnd={handleDragEnd}
+      opacity={shape.opacity}
     />
   );
 }

@@ -84,6 +84,8 @@ export const handleTransformEnd = (e: any, state: any, transRef) => {
       case "rectangle":
       case "ellipse":
       case "diamond":
+      case "line":
+      case "arrow":
         console.log("rect");
         updatedShape = {
           ...shape,

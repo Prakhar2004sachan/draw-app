@@ -27,13 +27,14 @@ function FreeDraw({ shape }: Props) {
           id={shape.id}
           points={line.points}
           stroke={"black"}
-          strokeWidth={line.tool === "eraser" ? 30 : 4}
+          strokeWidth={line.tool === "eraser" ? 30 : shape.strokeWidth}
           tension={0.3}
           lineCap="round"
           lineJoin="round"
           globalCompositeOperation={
             line.tool === "eraser" ? "destination-out" : "source-over"
           }
+          opacity={shape.opacity}
         />
       ))}
     </>

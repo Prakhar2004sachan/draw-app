@@ -36,11 +36,12 @@ function DiamondShape({ shape }: Props) {
       fill={shape.color ? shape.color : "#81E7AF"}
       tension={0.05}
       stroke={"black"}
-      strokeWidth={4}
+      strokeWidth={shape.strokeWidth}
       draggable={isDraggable}
       onClick={handleSelect}
       onDragEnd={handleDragEnd}
       onDragMove={handleDragMove}
+      opacity={shape.opacity}
     />
   );
 }

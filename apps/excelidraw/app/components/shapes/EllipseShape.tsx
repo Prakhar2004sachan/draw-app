@@ -30,7 +30,8 @@ function EllipseShape({ shape }: Props) {
       onDragEnd={handleDragEnd}
       onDragMove={handleDragMove}
       stroke={"black"}
-      strokeWidth={4}
+      strokeWidth={shape.strokeWidth}
+      opacity={shape.opacity}
     />
   );
 }

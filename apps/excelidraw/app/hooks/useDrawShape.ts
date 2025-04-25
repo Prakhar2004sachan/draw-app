@@ -24,29 +24,22 @@ export const useDrawShape = () => {
   const { shapeRefs, ...canvasState } = canvasStore();
   const { snapping } = uiStore();
 
-  useEffect(() => {
-    const nodes = canvasState.selectedIds
-      .map((id) => shapeRefs.get(id)?.current)
-      .filter((node): node is Konva.Node => Boolean(node));
+ useEffect(() => {
+   const handleKey = (e: KeyboardEvent) => {
+     handleKeyDown(
+       e,
+       canvasState.setSelectedIds,
+       canvasState.shapes,
+       canvasState.selectedIds
+     );
+   };
 
-    transRef?.current?.nodes(nodes);
-    transRef?.current?.getLayer()?.batchDraw();
+   window.addEventListener("keydown", handleKey);
 
-    window.addEventListener("keydown", (e) =>
-      handleKeyDown(
-        e,
-        canvasState.setSelectedIds,
-        canvasState.shapes,
-        canvasState.selectedIds
-      )
-    );
-
-    return () => {
-      // @ts-ignore
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [canvasState.selectedIds]);
-
+   return () => {
+     window.removeEventListener("keydown", handleKey);
+   };
+ }, [canvasState.selectedIds, canvasState.shapes]);
   return {
     handleMouseDown: (e: Konva.KonvaEventObject<MouseEvent>) =>
       handleMouseDown(e, canvasState, newShapeRef, isDrawing),

@@ -25,7 +25,8 @@ function LineShape({shape}: Props) {
       shape.y + shape.height
     ]}
     stroke={"black"}
-    strokeWidth={4}
+    strokeWidth={shape.strokeWidth}
+    opacity={shape.opacity}
     draggable={isDraggable}
     onClick={handleSelect}
     onDragEnd={handleDragEnd}
